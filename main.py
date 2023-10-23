@@ -14,12 +14,15 @@ import cv2
 # import quality_metrics.required.usable_iris_area
 
 
-if len(argv) == 1:
-    print("Usage: python main.py <image path>")
-    sysexit()
+if __name__ == "__main__":
+    if len(argv) == 1:
+        print("Usage: python main.py <image path>")
+        sysexit()
 
-img = cv2.imread(argv[1])
+    img = cv2.imread(argv[1])
+    img = cv2.resize(img, (320, 240))
+    cv2.imshow("Image", img)
 
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
