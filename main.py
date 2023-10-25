@@ -4,7 +4,6 @@ from sys import exit as sysexit
 import cv2
 import numpy as np
 import quality_metrics.required.grey_scale_utilization as gs
-import quality_metrics.required.iris_segmentation as iseg
 # import quality_metrics.required.iris_pupil_cocentricity
 # import quality_metrics.required.iris_sclera_contrast
 # import quality_metrics.required.iris_pupil_contrast
@@ -27,7 +26,7 @@ if __name__ == "__main__":
     grey = gs.GreyScale(img)
     entropy = grey.calculate_entropy_in_bits()
     print("Entropy: {}".format(entropy))
-    print("Is entropy above threshold? {}".format(grey.is_entropy_above_thresh(entropy)))
+    print(grey.is_entropy_above_thresh(entropy))
 
 
     cv2.waitKey(0)
