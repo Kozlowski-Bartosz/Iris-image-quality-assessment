@@ -26,7 +26,7 @@ if __name__ == "__main__":
     grey = gs.GreyScale(img)
     entropy = grey.calculate_entropy_in_bits()
     print("Entropy: {}".format(entropy))
-    print(grey.is_entropy_above_thresh(entropy))
+    print("Entropy above threshold? {}".format(grey.assert_entropy_above_thresh(entropy)))
 
 
     cv2.waitKey(0)
