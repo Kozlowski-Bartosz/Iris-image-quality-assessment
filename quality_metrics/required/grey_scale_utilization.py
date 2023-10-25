@@ -27,3 +27,6 @@ class GreyScale:
     
     def assert_entropy_above_thresh(self, entropy):
         return entropy >= self.THRESH
+    
+    def normalize_entropy_score(self, entropy):
+        return entropy / self.THRESH * 100
