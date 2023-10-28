@@ -3,6 +3,7 @@ from sys import exit as sysexit
 
 import cv2
 import numpy as np
+import helper_functions as hf
 import quality_metrics.required.grey_scale_utilization as gs
 # import quality_metrics.required.iris_pupil_cocentricity
 # import quality_metrics.required.iris_sclera_contrast
@@ -18,9 +19,14 @@ if __name__ == "__main__":
     if len(argv) == 1:
         print("Usage: python main.py <image path>")
         sysexit()
-
+        
     img = cv2.imread(argv[1], cv2.IMREAD_GRAYSCALE)
-    img = cv2.resize(img, (320, 240))
+    img = cv2.resize(img, (640, 480))
+    
+    pupil_coords, iris_coords = hf.read_OSIRIS_coords_from_file("resources/data/Output/CircleParameters/0000_000_para.txt")
+    hf.draw_iris_on_img(img, iris_coords)
+    hf.draw_pupil_on_img(img, pupil_coords)
+    
     cv2.imshow("Image", img)
     
     grey = gs.GreyScale(img)
