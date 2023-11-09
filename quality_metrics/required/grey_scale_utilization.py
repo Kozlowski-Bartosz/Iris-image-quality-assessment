@@ -1,7 +1,7 @@
 import math
 import cv2
 
-class GreyScale:
+class GreyScaleUtilizationCalc:
     
     THRESH = 6.0
     
