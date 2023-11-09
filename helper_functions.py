@@ -50,5 +50,6 @@ def draw_pupil_on_img(img, pupil_coords):
 def draw_iris_on_img(img, iris_coords):
     iris_x, iris_y, iris_radius = convert_OSIRIS_coords_to_xyr(iris_coords)
     cv2.circle(img, (int(iris_x), int(iris_y)), int(iris_radius), (255, 0, 0), 1)
+    # cv2.ellipse(img, (int(iris_x), int(iris_y)), (int(iris_radius), int(iris_radius)), 0, -45, 45, (255, 0, 0), 1)
+    # cv2.ellipse(img, (int(iris_x), int(iris_y)), (int(iris_radius), int(iris_radius)), 180, -45, 45, (255, 0, 0), 1)
     return img
-
