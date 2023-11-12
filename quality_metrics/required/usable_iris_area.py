@@ -30,8 +30,6 @@ class UsableIrisAreaCalc:
     def calculate_usable_area(self):
         whole_mask = self.generate_iris_mask()
         occlusion_mask = self.create_occlusion_mask()
-        cv2.imshow("Whole mask", whole_mask)
-        cv2.imshow("Occlusion mask", occlusion_mask)
         iris_pixels = self.count_masked_pixels(whole_mask)
         occluded_pixels = self.count_masked_pixels(occlusion_mask)
         return (1 - occluded_pixels / iris_pixels) * 100
