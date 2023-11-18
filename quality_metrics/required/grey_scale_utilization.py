@@ -5,8 +5,8 @@ class GreyScaleUtilizationCalc:
     
     THRESH = 6.0
     
-    def __init__(self, image):
-        self.image = image
+    def __init__(self, img):
+        self.img = img
         
     def calculate_entropy_in_bits(self):
         entropy = 0
@@ -19,11 +19,11 @@ class GreyScaleUtilizationCalc:
         return entropy
         
     def count_grey_levels(self):
-        return len(set(self.image.flatten()))
+        return len(set(self.img.flatten()))
     
     def calculate_probability(self, level):
-        px_in_level = (self.image[self.image == level])
-        return len(px_in_level) / self.image.size
+        px_in_level = (self.img[self.img == level])
+        return len(px_in_level) / self.img.size
     
     def assert_entropy_above_thresh(self, entropy):
         return entropy >= self.THRESH

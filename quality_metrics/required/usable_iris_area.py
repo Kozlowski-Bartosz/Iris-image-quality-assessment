@@ -5,7 +5,7 @@ from helper_functions import convert_OSIRIS_coords_to_xyr
 class UsableIrisAreaCalc:
     
     THRESH = 70.0
-    
+
     def __init__(self, img, iris_coords, pupil_coords, segmentation_mask):
         self.img = img
         self.iris_coords = iris_coords

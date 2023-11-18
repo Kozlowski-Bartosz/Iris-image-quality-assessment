@@ -42,8 +42,12 @@ if __name__ == "__main__":
     print("Usable area above threshold? {}".format(uiaCalc.assert_area_above_thresh(usable_area)))
     
     iscCalc = isc.ContrastCalc(img, iris_coords, pupil_coords)
-    print("Iris/Sclera contrast: {}".format(iscCalc.calculate_iris_sclera_contrast()))
-    print("Iris/Pupil contrast: {}".format(iscCalc.calculate_iris_pupil_contrast()))
+    iris_sclera_contrast = iscCalc.calculate_iris_sclera_contrast()
+    iris_pupil_contrast = iscCalc.calculate_iris_pupil_contrast()
+    print("Iris/Sclera contrast: {}".format(iris_sclera_contrast))
+    print("Iris/Sclera contrast above threshold? {}".format(iscCalc.assert_iris_sclera_contrast_above_thresh(iris_sclera_contrast)))
+    print("Iris/Pupil contrast: {}".format(iris_pupil_contrast))
+    print("Iris/Pupil contrast above threshold? {}".format(iscCalc.assert_iris_pupil_contrast_above_thresh(iris_pupil_contrast)))
     
     gsCalc = gs.GreyScaleUtilizationCalc(img)
     entropy = gsCalc.calculate_entropy_in_bits()
