@@ -16,9 +16,9 @@ import quality_metrics.required.contrast as isc
 import quality_metrics.required.usable_iris_area as uia
 
 if __name__ == "__main__":
-    if len(argv) == 1:
-        print("Usage: python main.py <image path>")
-        sysexit()
+    # if len(argv) == 1:
+    #     print("Usage: python main.py <image path>")
+    #     sysexit()
         
     image_list = "resources/data_ubiris/process_UBIRIS.txt"
     image_path = "resources/data_ubiris/UBIRIS/"
