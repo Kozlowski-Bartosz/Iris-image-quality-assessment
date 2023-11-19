@@ -43,12 +43,14 @@ def convert_OSIRIS_coords_to_xyr(coords):
     return center_x, center_y, radius
 
 def draw_pupil_on_img(img, pupil_coords):
-    pupil_x, pupil_y, pupil_radius = convert_OSIRIS_coords_to_xyr(pupil_coords)
+    pupil_x, pupil_y, pupil_radius = pupil_coords
     cv2.circle(img, (int(pupil_x), int(pupil_y)), int(pupil_radius), (255, 0, 0), 1)
     return img
 
 def draw_iris_on_img(img, iris_coords):
-    iris_x, iris_y, iris_radius = convert_OSIRIS_coords_to_xyr(iris_coords)
+    iris_x, iris_y, iris_radius = iris_coords
     cv2.circle(img, (int(iris_x), int(iris_y)), int(iris_radius), (255, 0, 0), 1)
     return img
 
+def generate_empty_mask(img):
+    return np.zeros(img.shape[:2], dtype=np.uint8)

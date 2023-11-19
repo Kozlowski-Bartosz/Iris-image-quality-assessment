@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
-from helper_functions import convert_OSIRIS_coords_to_xyr
+from helper_functions import generate_empty_mask
+from collections import namedtuple
 
 class UsableIrisAreaCalc:
     
@@ -8,16 +9,14 @@ class UsableIrisAreaCalc:
 
     def __init__(self, img, iris_coords, pupil_coords, segmentation_mask):
         self.img = img
-        self.iris_coords = iris_coords
-        self.pupil_coords = pupil_coords
+        self.iris = namedtuple('iris', ['x', 'y', 'r'])(iris_coords[0], iris_coords[1], iris_coords[2])
+        self.pupil = namedtuple('pupil', ['x', 'y', 'r'])(pupil_coords[0], pupil_coords[1], pupil_coords[2])
         self.segmentation_mask = segmentation_mask
 
     def generate_iris_mask(self):
-        mask = np.zeros(self.img.shape[:2], dtype=np.uint8)
-        pupil_x, pupil_y, pupil_radius = convert_OSIRIS_coords_to_xyr(self.pupil_coords)
-        iris_x, iris_y, iris_radius = convert_OSIRIS_coords_to_xyr(self.iris_coords)
-        cv2.circle(mask, (int(iris_x), int(iris_y)), int(iris_radius), 255, -1)  # Draw the iris
-        cv2.circle(mask, (int(pupil_x), int(pupil_y)), int(pupil_radius), 0, -1)  # Exclude the pupil
+        mask = generate_empty_mask(self.img)
+        cv2.circle(mask, (int(self.iris.x), int(self.iris.y)), int(self.iris.r), 255, -1)  # Draw the iris
+        cv2.circle(mask, (int(self.pupil.x), int(self.pupil.y)), int(self.pupil.r), 0, -1)  # Exclude the pupil
         return mask
 
     def count_masked_pixels(self, mask):
