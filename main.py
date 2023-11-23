@@ -4,13 +4,13 @@
 import cv2
 import helper_functions as hf
 import quality_metrics.required.grey_scale_utilization as gs
-# import quality_metrics.required.iris_pupil_cocentricity
+import quality_metrics.required.iris_pupil_cocentricity as ipc
 import quality_metrics.required.contrast as isc
-# import quality_metrics.required.iris_radius
-# import quality_metrics.required.margin_adequacy
+import quality_metrics.required.iris_radius as ir
+import quality_metrics.required.margin_adequacy as ma
 # import quality_metrics.required.pupil_boundary_circularity
-# import quality_metrics.required.pupil_dilation
-# import quality_metrics.required.sharpness
+import quality_metrics.required.pupil_dilation as pd
+import quality_metrics.required.sharpness as sh
 import quality_metrics.required.usable_iris_area as uia
 
 if __name__ == "__main__":
@@ -28,9 +28,9 @@ if __name__ == "__main__":
     seg_mask = cv2.imread(mask_path + "2_mask.bmp", cv2.IMREAD_GRAYSCALE)
     # img = cv2.resize(img, (640, 480))
     
-    pupil_coords_osiris, iris_coords_osiris = hf.read_OSIRIS_coords_from_file(parameter_path + "2_para.txt")
-    pupil_coords = hf.convert_OSIRIS_coords_to_xyr(pupil_coords_osiris)
-    iris_coords = hf.convert_OSIRIS_coords_to_xyr(iris_coords_osiris)
+    fine_pupil_coords, fine_iris_coords = hf.read_OSIRIS_coords_from_file(parameter_path + "2_para.txt")
+    pupil_coords = hf.convert_OSIRIS_coords_to_xyr(fine_pupil_coords)
+    iris_coords = hf.convert_OSIRIS_coords_to_xyr(fine_iris_coords)
     
     hf.draw_iris_on_img(img, iris_coords)
     hf.draw_pupil_on_img(img, pupil_coords)
@@ -40,22 +40,54 @@ if __name__ == "__main__":
     uiaCalc = uia.UsableIrisAreaCalc(img, iris_coords, pupil_coords, seg_mask)
     iscCalc = isc.ContrastCalc(img, iris_coords, pupil_coords)
     gsCalc = gs.GreyScaleUtilizationCalc(img)
+    irCalc = ir.IrisRadiusCalc(img, iris_coords)
+    pdCalc = pd.PupilDilationCalc(img, pupil_coords, iris_coords)
+    ipcCalc = ipc.IrisPupilCocentricityCalc(img, pupil_coords, iris_coords)
+    maCalc = ma.MarginAdequacyCalc(img, iris_coords, pupil_coords)
     
     usable_area = uiaCalc.calculate_usable_area()
+    print("=====================================")
     print("Usable area: {}".format(usable_area))
     print("Usable area above threshold? {}".format(uiaCalc.assert_area_above_thresh(usable_area)))
+    print("=====================================")
     
     iris_sclera_contrast = iscCalc.calculate_iris_sclera_contrast()
     print("Iris/Sclera contrast: {}".format(iris_sclera_contrast))
     print("Iris/Sclera contrast above threshold? {}".format(iscCalc.assert_iris_sclera_contrast_above_thresh(iris_sclera_contrast)))
+    print("=====================================")
     
     iris_pupil_contrast = iscCalc.calculate_iris_pupil_contrast()
     print("Iris/Pupil contrast: {}".format(iris_pupil_contrast))
     print("Iris/Pupil contrast above threshold? {}".format(iscCalc.assert_iris_pupil_contrast_above_thresh(iris_pupil_contrast)))
+    print("=====================================")
     
     entropy = gsCalc.calculate_entropy_in_bits()
     print("Entropy: {}".format(entropy))
     print("Entropy above threshold? {}".format(gsCalc.assert_entropy_above_thresh(entropy)))
+    print("=====================================")
+    
+    iris_radius = irCalc.calculate_iris_radius()
+    print("Iris radius: {}".format(iris_radius))
+    print("Iris radius above threshold? {}".format(irCalc.assert_iris_radius_above_thresh(iris_radius)))
+    print("=====================================")
+    
+    pupil_dilation = pdCalc.calculate_pupil_dilation()
+    print("Pupil dilation: {}".format(pupil_dilation))
+    print("Pupil dilation within thresholds? {}".format(pdCalc.assert_pupil_dilation_within_thresh(pupil_dilation)))
+    print("=====================================")
+    
+    cocentricity = ipcCalc.calculate_cocentricity()
+    print("Cocentricity: {}".format(cocentricity))
+    print("Cocentricity above threshold? {}".format(ipcCalc.assert_cocentricity_above_thresh(cocentricity)))
+    print("=====================================")
+    
+    margin_adequacy = maCalc.calculate_margin_adequacy()
+    print("Margin adequacy: {}".format(margin_adequacy))
+    print("Margin adequacy above threshold? {}".format(maCalc.assert_margin_adequacy_above_thresh(margin_adequacy)))
+    print("=====================================")
+
+    if fine_pupil_coords is None:
+        print("Fine pupil conteurs were not provided. Skipping pupil boundary circularity calculation.")
 
 
     cv2.waitKey(0)
