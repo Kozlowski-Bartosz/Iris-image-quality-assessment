@@ -25,33 +25,32 @@ class SharpnessCalc:
         k_width, k_height = kernel.shape[:2]
         step = 4
         
-        adj_width = int((width - k_width) / step + 1)
-        adj_height = int((height - k_height) / step + 1)
+        adj_width = (width - k_width) // step + 1
+        adj_height = (height - k_height) // step + 1
         
         filtered_img = np.zeros((adj_width, adj_height))
         
-        rows = np.arange(4, width-4, 4)
-        cols = np.arange(4, height-4, 4)
+        rows = np.arange(4, width-4, step)
+        cols = np.arange(4, height-4, step)
         
         for x in rows:
             for y in cols:
                 # Extract a 9x9 region of interest
-                roi = self.img[x-4:x+4+1, y-4:y+4+1]
+                roi = self.img[x-4:x+5, y-4:y+5]
                 # Apply the kernel to the region of interest
                 sum_of_pixels = np.sum(np.multiply(roi, kernel))
                 # print(int(x/4), int(y/4))
-                filtered_img[int(x/4 - 1), int(y/4 - 1)] = sum_of_pixels
+                filtered_img[x // step - 1, y // step - 1] = sum_of_pixels
                 
         # For each pixel in filtered image, square it. Sum all the pixels.
         squares_sum = np.sum(np.square(filtered_img))
         
-        power = squares_sum / (width * height)
+        power = squares_sum / (adj_width * adj_height)
         power_sq = pow(power, 2)
-        
-        C_SQUARED = 3240000000000
+
+        # ISO/IEC 29794-6:2015 defines this as 3240000000000 (two additional zeroes), but that seems to be a typo
+        C_SQUARED = 32400000000
         
         sharpness = (power_sq / (power_sq + C_SQUARED)) * 100
-        # cv2.imshow("Sharpness", filtered_img)
 
         return sharpness
-        
