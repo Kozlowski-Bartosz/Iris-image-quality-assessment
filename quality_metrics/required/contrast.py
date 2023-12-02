@@ -58,7 +58,7 @@ class ContrastCalc:
             mask_name = "Sclera area mask"
             )
     
-    def generate_pupil_mask(self, display_mask = True):
+    def generate_pupil_mask(self, display_mask = False):
         mask = generate_empty_mask(self.img)
         cv2.circle(mask, (int(self.pupil.x), int(self.pupil.y)), int(0.8 * self.pupil.r), 255, -1)
         cv2.imshow("Pupil area mask", cv2.bitwise_and(self.img, self.img, mask=mask)) if display_mask else None
@@ -67,7 +67,7 @@ class ContrastCalc:
         
         return namedtuple('image_mask', ['mask', 'value'])(mask, value)
 
-    def generate_area_mask(self, inner_radius, outer_radius, mask_name = "Area mask", display_mask = True):
+    def generate_area_mask(self, inner_radius, outer_radius, mask_name = "Area mask", display_mask = False):
         mask = generate_empty_mask(self.img)
         
         self.__draw_mask_bounds(mask, self.iris.x, self.iris.y, outer_radius)

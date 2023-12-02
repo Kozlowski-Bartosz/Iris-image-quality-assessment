@@ -23,7 +23,7 @@ class MarginAdequacyCalc:
         UP_MARGIN = max(0, min(1, UM/0.2))
         DOWN_MARGIN = max(0, min(1, DM/0.2))
         
-        cv2.imshow("Margin adequacy",self.draw_margins())
+        # cv2.imshow("Margin adequacy",self.draw_margins())
         
         return 100 * min(LEFT_MARGIN, RIGHT_MARGIN, UP_MARGIN, DOWN_MARGIN)
     
