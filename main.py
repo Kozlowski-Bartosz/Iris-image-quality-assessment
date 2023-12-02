@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parameter_path = base_path + "/Output/CircleParameters/"
     mask_path = base_path + "/Output/Masks/"
     
-    image_name = "128"
+    image_name = "256"
     image_extension = ".png"
     
     # img = cv2.imread(argv[1], cv2.IMREAD_GRAYSCALE)
@@ -97,7 +97,10 @@ if __name__ == "__main__":
     print("Margin adequacy above threshold? {}".format(maCalc.assert_margin_adequacy_above_thresh(margin_adequacy)))
     print("=====================================")
     
-    shCalc.calculate_sharpness()
+    sharpness = shCalc.calculate_sharpness()
+    print("Sharpness: {}".format(round(sharpness, 3)))
+    #print("Sharpness above threshold? {}".format(shCalc.assert_sharpness_above_thresh(sharpness)))
+    print("=====================================")
 
     if fine_pupil_coords is None:
         print("Fine pupil conteurs were not provided. Skipping pupil boundary circularity calculation.")
