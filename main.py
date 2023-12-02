@@ -33,14 +33,9 @@ if __name__ == "__main__":
     # img = cv2.imread(argv[1], cv2.IMREAD_GRAYSCALE)
     img = cv2.imread(image_path + image_name + image_extension, cv2.IMREAD_GRAYSCALE)
     seg_mask = cv2.imread(mask_path + image_name + "_mask.bmp", cv2.IMREAD_GRAYSCALE)
-    # img = cv2.resize(img, (640, 480))
-    
     fine_pupil_coords, fine_iris_coords = hf.read_OSIRIS_coords_from_file(parameter_path + image_name + "_para.txt")
     pupil_coords = hf.convert_OSIRIS_coords_to_xyr(fine_pupil_coords)
     iris_coords = hf.convert_OSIRIS_coords_to_xyr(fine_iris_coords)
-    
-    # hf.draw_iris_on_img(img, iris_coords)
-    # hf.draw_pupil_on_img(img, pupil_coords)
     
     cv2.imshow("Original", img)
     
@@ -51,7 +46,7 @@ if __name__ == "__main__":
     pdCalc = pd.PupilDilationCalc(img, pupil_coords, iris_coords)
     ipcCalc = ipc.IrisPupilCocentricityCalc(img, pupil_coords, iris_coords)
     maCalc = ma.MarginAdequacyCalc(img, iris_coords, pupil_coords)
-    pbcCalc = pbc.PupilBoundaryCircularityCalc(img, pupil_coords, iris_coords)
+    pbcCalc = pbc.PupilBoundaryCircularityCalc(img, pupil_coords, fine_pupil_coords)
     shCalc = sh.SharpnessCalc(img)
     
     print("=====================================")
@@ -104,6 +99,11 @@ if __name__ == "__main__":
 
     if fine_pupil_coords is None:
         print("Fine pupil conteurs were not provided. Skipping pupil boundary circularity calculation.")
+    else:
+        pupil_circularity = pbcCalc.calculate_circularity()
+        print("Pupil circularity: {}".format(round(pupil_circularity, 3)))
+        #print("Pupil circularity above threshold? {}".format(pbcCalc.assert_circularity_above_thresh(pupil_circularity)))
+        print("=====================================")
 
 
     cv2.waitKey(0)
