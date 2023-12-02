@@ -51,7 +51,7 @@ class SharpnessCalc:
         C_SQUARED = 3240000000000
         
         sharpness = (power_sq / (power_sq + C_SQUARED)) * 100
-        cv2.imshow("Sharpness", filtered_img)
+        # cv2.imshow("Sharpness", filtered_img)
 
         return sharpness
         
