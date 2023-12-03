@@ -33,20 +33,17 @@ class ContrastCalc:
             return self.generate_area_mask(
                 inner_radius = 1.1 * self.pupil.r,
                 outer_radius = (self.pupil.r + self.iris.r) * 0.5,
-                mask_name = "Iris area mask for pupil"
                 )
         else:
             return self.generate_area_mask(
                 inner_radius = (self.pupil.r + self.iris.r) * 0.5,
                 outer_radius = 0.9 * self.iris.r,
-                mask_name = "Iris area mask"
                 )
     
     def generate_sclera_mask(self):
         return self.generate_area_mask(
             inner_radius = 1.1 * self.iris.r, 
             outer_radius = 1.2 * self.iris.r, 
-            mask_name = "Sclera area mask"
             )
     
     def generate_pupil_mask(self):
