@@ -3,8 +3,6 @@ import cv2
 
 class MarginAdequacyCalc:
     
-    THRESH = 80.0
-    
     def __init__(self, img, iris_coords, pupil_coords):
         self.img = img
         self.iris = namedtuple('iris', ['x', 'y', 'r'])(iris_coords[0], iris_coords[1], iris_coords[2])
@@ -42,7 +40,3 @@ class MarginAdequacyCalc:
         cv2.line(self.img, (0, down_margin), (image_width, down_margin), (0, 0, 255), 1)
         
         return self.img
-        
-        
-    def assert_margin_adequacy_above_thresh(self, margin_adequacy):
-        return margin_adequacy >= self.THRESH

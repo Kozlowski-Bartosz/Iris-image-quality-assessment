@@ -3,8 +3,6 @@ import cv2
 
 class GreyScaleUtilizationCalc:
     
-    THRESH = 6.0
-    
     def __init__(self, img):
         self.img = img
         
@@ -24,9 +22,3 @@ class GreyScaleUtilizationCalc:
     def calculate_probability(self, level):
         px_in_level = (self.img[self.img == level])
         return len(px_in_level) / self.img.size
-    
-    def assert_entropy_above_thresh(self, entropy):
-        return entropy >= self.THRESH
-    
-    def normalize_entropy_score(self, entropy):
-        return entropy / self.THRESH * 100

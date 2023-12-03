@@ -12,8 +12,6 @@ class PupilBoundaryCircularityCalc:
         self.fine_y = self.fine_pupil[:,1]
         self.fine_phi = self.fine_pupil[:,2]
         
-      
-      
     def calculate_circularity(self):
         n = len(self.fine_pupil[:])
         m = 17
@@ -29,13 +27,10 @@ class PupilBoundaryCircularityCalc:
             modulus_sum += abs(C[k]) ** 2
                 
         calculated_circularity = 100.0 - (modulus_sum/n)
-        return(max(0.0, calculated_circularity))
-        
-        
+        return(max(0.0, calculated_circularity))        
         
     def is_point_occluded(self, x, y, mask):
         return mask[x][y] == 0
-        
           
     def define_radii(self):
         

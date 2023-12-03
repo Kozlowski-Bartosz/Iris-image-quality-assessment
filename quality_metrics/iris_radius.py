@@ -8,6 +8,3 @@ class IrisRadiusCalc:
         
     def calculate_iris_radius(self):
         return self.iris.r
-    
-    def assert_iris_radius_above_thresh(self, radius):
-        return radius >= 80

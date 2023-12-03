@@ -70,3 +70,8 @@ def draw_iris_on_img(img, iris_coords):
 
 def generate_empty_mask(img):
     return np.zeros(img.shape[:2], dtype=np.uint8)
+
+def assert_within_threshold(value, threshold):
+    within_lower = (value >= threshold[0]) if threshold[0] is not None else True
+    within_upper = (value <= threshold[1]) if threshold[1] is not None else True
+    return within_lower and within_upper

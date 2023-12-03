@@ -5,19 +5,10 @@ from collections import namedtuple
 
 class ContrastCalc:
     
-    IRIS_SCLERA_THRESH = 5.0
-    IRIS_PUPIL_THRESH = 30.0
-    
     def __init__(self, img, iris_coords, pupil_coords):
         self.img = img
         self.iris = namedtuple('iris', ['x', 'y', 'r'])(iris_coords[0], iris_coords[1], iris_coords[2])
         self.pupil = namedtuple('pupil', ['x', 'y', 'r'])(pupil_coords[0], pupil_coords[1], pupil_coords[2])
-    
-    def assert_iris_sclera_contrast_above_thresh(self, contrast):
-        return contrast >= self.IRIS_SCLERA_THRESH
-    
-    def assert_iris_pupil_contrast_above_thresh(self, contrast):
-        return contrast >= self.IRIS_PUPIL_THRESH
     
     def calculate_iris_sclera_contrast(self):
         iris_val = self.generate_iris_mask().value
@@ -58,23 +49,23 @@ class ContrastCalc:
             mask_name = "Sclera area mask"
             )
     
-    def generate_pupil_mask(self, display_mask = False):
+    def generate_pupil_mask(self):
         mask = generate_empty_mask(self.img)
         cv2.circle(mask, (int(self.pupil.x), int(self.pupil.y)), int(0.8 * self.pupil.r), 255, -1)
-        cv2.imshow("Pupil area mask", cv2.bitwise_and(self.img, self.img, mask=mask)) if display_mask else None
+        #cv2.imshow("Pupil area mask", cv2.bitwise_and(self.img, self.img, mask=mask))
         
         value = self.__get_value(mask)
         
         return namedtuple('image_mask', ['mask', 'value'])(mask, value)
 
-    def generate_area_mask(self, inner_radius, outer_radius, mask_name = "Area mask", display_mask = False):
+    def generate_area_mask(self, inner_radius, outer_radius):
         mask = generate_empty_mask(self.img)
         
         self.__draw_mask_bounds(mask, self.iris.x, self.iris.y, outer_radius)
         self.__draw_mask_bounds(mask, self.iris.x, self.iris.y, inner_radius, inner = True)      
         value = self.__get_value(mask)
         
-        cv2.imshow(mask_name, cv2.bitwise_and(self.img, self.img, mask=mask)) if display_mask else None
+        #cv2.imshow("Area mask", cv2.bitwise_and(self.img, self.img, mask=mask))
         
         return namedtuple('image_mask', ['mask', 'value'])(mask, value)
     

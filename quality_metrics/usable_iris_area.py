@@ -4,8 +4,6 @@ from helper_functions import generate_empty_mask
 from collections import namedtuple
 
 class UsableIrisAreaCalc:
-    
-    THRESH = 70.0
 
     def __init__(self, img, iris_coords, pupil_coords, segmentation_mask):
         self.img = img
@@ -32,6 +30,3 @@ class UsableIrisAreaCalc:
         iris_pixels = self.count_masked_pixels(whole_mask)
         occluded_pixels = self.count_masked_pixels(occlusion_mask)
         return (1 - occluded_pixels / iris_pixels) * 100
-    
-    def assert_area_above_thresh(self, area):
-        return area >= self.THRESH
