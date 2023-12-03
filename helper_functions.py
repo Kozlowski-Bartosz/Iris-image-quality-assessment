@@ -13,14 +13,36 @@ def read_OSIRIS_coords_from_file(filepath):
                 return None
 
             # Split the third line into space-separated values
-            pupil_values = lines[2].strip().split()
-            iris_values = lines[3].strip().split()
+            pupil_values = np.array(lines[2].strip().split(), dtype=np.float64)
+            iris_values = np.array(lines[3].strip().split(), dtype=np.float64)
 
 
-            # Group the values into sets of three
-            grouped_pupil_values = [pupil_values[i:i+3] for i in range(0, len(pupil_values), 3)]
-            grouped_iris_values = [iris_values[i:i+3] for i in range(0, len(iris_values), 3)]
+            # Group the values into sets of two
+            grouped_pupil_values = [pupil_values[i:i+2] for i in range(0, len(pupil_values), 3)]
+            grouped_iris_values = [iris_values[i:i+2] for i in range(0, len(iris_values), 3)]
+            
             return grouped_pupil_values, grouped_iris_values
+        
+    except FileNotFoundError:
+        print(f"File '{filepath}' not found.")
+        return None
+    
+def read_classical_coords_from_file(filepath):
+    try:
+        with open(filepath, 'r') as file:
+            # Read all lines into a list
+            lines = file.readlines()
+            line_count = len(lines)
+
+            pupil_values = np.array(lines[0].strip().split(), dtype=np.float64) if line_count >= 1 else None
+            iris_values = np.array(lines[1].strip().split(), dtype=np.float64) if line_count >= 2 else None
+            pupil_fine_coords = np.array(lines[2].strip().split(), dtype=np.float64) if line_count >= 3 else None
+            iris_fine_coords = np.array(lines[3].strip().split(), dtype=np.float64) if line_count >= 4 else None
+            
+            grouped_pupil_fine_coords = [pupil_fine_coords[i:i+2] for i in range(0, len(pupil_fine_coords), 2)]
+            grouped_iris_fine_coords = [iris_fine_coords[i:i+2] for i in range(0, len(iris_fine_coords), 2)]
+            
+            return pupil_values, iris_values, grouped_pupil_fine_coords, grouped_iris_fine_coords
         
     except FileNotFoundError:
         print(f"File '{filepath}' not found.")
@@ -31,7 +53,6 @@ def circle_equation(params, x, y):
     return (x - a) ** 2 + (y - b) ** 2 - r ** 2
 
 def convert_OSIRIS_coords_to_xyr(coords):
-    coords = np.array(coords, dtype=np.float64)
     initial_guess = (0, 0, 1)
 
     # Fit the circle parameters using the least squares method
@@ -41,22 +62,6 @@ def convert_OSIRIS_coords_to_xyr(coords):
     center_x, center_y, radius = result.x
     radius = abs(radius)
     return center_x, center_y, radius
-
-# def find_x(array):
-#     array = np.array(array, dtype=np.float64)
-#     # Find the index of the minimum value in the third column
-#     min_index = np.argmin(array[:, 2])
-#     max_index = np.argmax(array[:, 2])
-#     if(6.28318 - array[max_index, 2] < array[min_index, 2]):
-#         min_index = max_index
-    
-#     x = array[min_index, 0]
-    
-#     return x
-
-# def find_y(array):
-#     #Find the value closest to pi/2 or -pi/2
-#     pass
 
 def draw_pupil_on_img(img, pupil_coords):
     pupil_x, pupil_y, pupil_radius = pupil_coords

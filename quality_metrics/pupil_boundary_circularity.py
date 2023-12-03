@@ -10,7 +10,6 @@ class PupilBoundaryCircularityCalc:
         self.fine_pupil = np.array(fine_pupil_coords)
         self.fine_x = self.fine_pupil[:,0]
         self.fine_y = self.fine_pupil[:,1]
-        self.fine_phi = self.fine_pupil[:,2]
         
     def calculate_circularity(self):
         n = len(self.fine_pupil[:])

@@ -1,6 +1,7 @@
 # from sys import argv
 # from sys import exit as sysexit
 
+import time
 import cv2
 import helper_functions as hf
 from config_parser import Config
@@ -14,14 +15,14 @@ import quality_metrics.pupil_dilation as pd
 import quality_metrics.sharpness as sh
 import quality_metrics.usable_iris_area as uia
 
-import time
 
 if __name__ == "__main__":
+       
     try:
         cf = Config("config.ini")
     except KeyError:
         print("Config file not found or incorrectly formated.")
-        exit()
+        exit()    
         
     start_time = time.time()
     
@@ -43,7 +44,8 @@ if __name__ == "__main__":
             except TypeError:
                 print("Parameter file not found for image {}.".format(cf.image_names[i]))
                 continue
-        
+        else:
+            pupil_coords, iris_coords, fine_pupil_coords, fine_iris_coords = hf.read_classical_coords_from_file(cf.parameter_path + cf.image_names[i] + "_para.txt")
         params = []
         
         if cf.UsableIrisArea:
