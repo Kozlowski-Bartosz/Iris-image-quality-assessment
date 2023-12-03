@@ -4,15 +4,15 @@
 import cv2
 import helper_functions as hf
 from config_parser import Config
-import quality_metrics.required.grey_scale_utilization as gs
-import quality_metrics.required.iris_pupil_concentricity as ipc
-import quality_metrics.required.contrast as isc
-import quality_metrics.required.iris_radius as ir
-import quality_metrics.required.margin_adequacy as ma
-import quality_metrics.required.pupil_boundary_circularity as pbc
-import quality_metrics.required.pupil_dilation as pd
-import quality_metrics.required.sharpness as sh
-import quality_metrics.required.usable_iris_area as uia
+import quality_metrics.grey_scale_utilization as gs
+import quality_metrics.iris_pupil_concentricity as ipc
+import quality_metrics.contrast as isc
+import quality_metrics.iris_radius as ir
+import quality_metrics.margin_adequacy as ma
+import quality_metrics.pupil_boundary_circularity as pbc
+import quality_metrics.pupil_dilation as pd
+import quality_metrics.sharpness as sh
+import quality_metrics.usable_iris_area as uia
 
 if __name__ == "__main__":
     cf = Config("config.ini")
