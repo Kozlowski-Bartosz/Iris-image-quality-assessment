@@ -177,3 +177,6 @@ if __name__ == "__main__":
     
     print("Execution ended after: {} seconds".format(time.time() - start_time))
     print("Average time per image: {} seconds".format((time.time() - start_time) / len(cf.images)))
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+    input("Press the Enter key to continue: ") 

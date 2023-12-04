@@ -62,7 +62,7 @@ class ContrastCalc:
         self.__draw_mask_bounds(mask, self.iris.x, self.iris.y, inner_radius, inner = True)      
         value = self.__get_value(mask)
         
-        #cv2.imshow("Area mask", cv2.bitwise_and(self.img, self.img, mask=mask))
+        #cv2.imshow(str(inner_radius), cv2.bitwise_and(self.img, self.img, mask=mask))
         
         return namedtuple('image_mask', ['mask', 'value'])(mask, value)
     
@@ -71,8 +71,8 @@ class ContrastCalc:
         color = 0 if inner else 255
         angle = 35 if inner else 30
         
-        cv2.ellipse(mask, (int(x), int(y)), (int(r), int(r)), 0, -angle, angle, color, -1)
-        cv2.ellipse(mask, (int(x), int(y)), (int(r), int(r)), 180, -angle, angle, color, -1)
+        cv2.ellipse(mask, (int(x), int(y)), (int(r), int(r)), 150, -angle, angle, color, -1)
+        cv2.ellipse(mask, (int(x), int(y)), (int(r), int(r)), 30, -angle, angle, color, -1)
     
     def __get_value(self, mask):
         return np.median(self.img[mask == 255])
