@@ -13,8 +13,8 @@ def read_OSIRIS_coords_from_file(filepath):
                 return None
 
             # Split the third line into space-separated values
-            pupil_values = np.array(lines[2].strip().split(), dtype=np.float64)
-            iris_values = np.array(lines[3].strip().split(), dtype=np.float64)
+            pupil_values = lines[2].strip().split()
+            iris_values = lines[3].strip().split()
 
 
             # Group the values into sets of two
@@ -37,7 +37,7 @@ def read_classical_coords_from_file(filepath):
             pupil_values = np.array(lines[0].strip().split(), dtype=np.float64) if line_count >= 1 else None
             iris_values = np.array(lines[1].strip().split(), dtype=np.float64) if line_count >= 2 else None
             pupil_fine_coords = np.array(lines[2].strip().split(), dtype=np.float64) if line_count >= 3 else None
-            iris_fine_coords = np.array(lines[3].strip().split(), dtype=np.float64) if line_count >= 4 else None
+            iris_fine_coords = np.array(lines[0].strip().split(), dtype=np.float64) if line_count >= 4 else None
             
             grouped_pupil_fine_coords = [pupil_fine_coords[i:i+2] for i in range(0, len(pupil_fine_coords), 2)]
             grouped_iris_fine_coords = [iris_fine_coords[i:i+2] for i in range(0, len(iris_fine_coords), 2)]
@@ -53,6 +53,7 @@ def circle_equation(params, x, y):
     return (x - a) ** 2 + (y - b) ** 2 - r ** 2
 
 def convert_OSIRIS_coords_to_xyr(coords):
+    coords = np.array(coords, dtype=np.float64)
     initial_guess = (0, 0, 1)
 
     # Fit the circle parameters using the least squares method
