@@ -20,13 +20,9 @@ class UsableIrisAreaCalc:
     def count_masked_pixels(self, mask):
         return np.count_nonzero(self.img[mask == 255])
 
-    def create_occlusion_mask(self):
-        iris_mask = self.generate_iris_mask()
-        return iris_mask - self.segmentation_mask
-
     def calculate_usable_area(self):
         whole_mask = self.generate_iris_mask()
-        occlusion_mask = self.create_occlusion_mask()
+        usable_mask = self.segmentation_mask
         iris_pixels = self.count_masked_pixels(whole_mask)
-        occluded_pixels = self.count_masked_pixels(occlusion_mask)
-        return (1 - occluded_pixels / iris_pixels) * 100
+        usable_pixels = self.count_masked_pixels(usable_mask)
+        return (usable_pixels/iris_pixels) * 100
