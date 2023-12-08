@@ -15,7 +15,6 @@ class PupilBoundaryCircularityCalc:
         n = len(self.fine_pupil[:])
         m = 17
         r_array = np.array(self.define_radii()).astype(complex)
-        # print(r_array)
         C = np.zeros(m).astype(complex)
         
         modulus_sum = 0

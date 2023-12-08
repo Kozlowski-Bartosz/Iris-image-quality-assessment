@@ -48,9 +48,7 @@ class SharpnessCalc:
         power = squares_sum / (adj_width * adj_height)
         power_sq = pow(power, 2)
 
-        # ISO/IEC 29794-6:2015 defines this as 3240000000000 (two additional zeroes), but that seems to be a typo
+        # ISO/IEC 29794-6:2015 defines this as 3240000000000 (two additional zeroes), but that seems incorrect
         C_SQUARED = 32400000000
         
-        sharpness = (power_sq / (power_sq + C_SQUARED)) * 100
-
-        return sharpness
+        return (power_sq / (power_sq + C_SQUARED)) * 100
