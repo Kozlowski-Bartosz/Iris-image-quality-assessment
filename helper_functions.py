@@ -39,8 +39,8 @@ def read_classical_coords_from_file(filepath):
             pupil_fine_coords = np.array(lines[2].strip().split(), dtype=np.float64) if line_count >= 3 else None
             iris_fine_coords = np.array(lines[0].strip().split(), dtype=np.float64) if line_count >= 4 else None
             
-            grouped_pupil_fine_coords = [pupil_fine_coords[i:i+2] for i in range(0, len(pupil_fine_coords), 2)]
-            grouped_iris_fine_coords = [iris_fine_coords[i:i+2] for i in range(0, len(iris_fine_coords), 2)]
+            grouped_pupil_fine_coords = [pupil_fine_coords[i:i+2] for i in range(0, len(pupil_fine_coords), 2)] if line_count >= 3 else None
+            grouped_iris_fine_coords = [iris_fine_coords[i:i+2] for i in range(0, len(iris_fine_coords), 2)] if line_count >= 4 else None
             
             return pupil_values, iris_values, grouped_pupil_fine_coords, grouped_iris_fine_coords
         
