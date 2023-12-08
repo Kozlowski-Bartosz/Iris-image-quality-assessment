@@ -11,5 +11,8 @@ class IrisPupilCocentricityCalc:
         self.iris = namedtuple('iris', ['x', 'y', 'r'])(iris_coords[0], iris_coords[1], iris_coords[2])
     
     def calculate_cocentricity(self):
-        distance = (math.sqrt(pow((self.pupil.x - self.iris.x),2) + pow((self.pupil.y - self.iris.y),2)))/(self.iris.r)
+        distance = (math.sqrt(
+            pow((self.pupil.x - self.iris.x),2) + 
+            pow((self.pupil.y - self.iris.y),2)
+            ))/(self.iris.r)
         return 100 * max(1-distance, 0)
