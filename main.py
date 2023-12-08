@@ -25,10 +25,12 @@ if __name__ == "__main__":
         exit()    
         
     start_time = time.time()
+    image_count = len(cf.images)
     
     print("Starting quality metrics calculations.")
         
-    for i in range(len(cf.images)):
+    for i in range(image_count):
+        print("Processing image {} of {}.".format(i+1, image_count))
         try:
             img = cv2.imread(cf.image_path + cf.image_names[i] + cf.image_extensions[i], cv2.IMREAD_GRAYSCALE)
             seg_mask = cv2.imread(cf.mask_path + cf.image_names[i] + "_mask.bmp", cv2.IMREAD_GRAYSCALE)
