@@ -12,8 +12,10 @@ class Config(configparser.ConfigParser):
         self.image_list = self['Input']['image_list_path']
         self.image_path = self['Input']['image_directory_path']
         self.parameter_path = self['Input']['parameters_path']
+        self.parameters_suffix = self['Input']['parameters_suffix']
         self.mask_path = self['Input']['mask_path']
         self.convert_from_OSIRIS = self['Input'].getboolean('OSIRIS_formatting')
+        self.mask_suffix = self['Input']['mask_suffix']
         
         self.UsableIrisArea = self['QualityMetrics'].getboolean('UsableIrisArea')
         self.IrisScleraContrast = self['QualityMetrics'].getboolean('IrisScleraContrast')

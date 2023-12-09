@@ -33,14 +33,14 @@ if __name__ == "__main__":
         print("Processing image {} of {}.".format(i+1, image_count))
         try:
             img = cv2.imread(cf.image_path + cf.image_names[i] + cf.image_extensions[i], cv2.IMREAD_GRAYSCALE)
-            seg_mask = cv2.imread(cf.mask_path + cf.image_names[i] + "_mask.bmp", cv2.IMREAD_GRAYSCALE)
+            seg_mask = cv2.imread(cf.mask_path + cf.image_names[i] + cf.mask_suffix, cv2.IMREAD_GRAYSCALE)
         except:
             print("Image file read fail for image {}.".format(cf.image_names[i]))
             continue
         
         if cf.convert_from_OSIRIS:
             try:
-                fine_pupil_coords, fine_iris_coords = hf.read_OSIRIS_coords_from_file(cf.parameter_path + cf.image_names[i] + "_para.txt")
+                fine_pupil_coords, fine_iris_coords = hf.read_OSIRIS_coords_from_file(cf.parameter_path + cf.image_names[i] + cf.parameters_suffix)
                 pupil_coords = hf.convert_OSIRIS_coords_to_xyr(fine_pupil_coords)
                 iris_coords = hf.convert_OSIRIS_coords_to_xyr(fine_iris_coords)
             except TypeError:
