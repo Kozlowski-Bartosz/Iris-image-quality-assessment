@@ -9,16 +9,25 @@ class MarginAdequacyCalc:
         self.pupil = namedtuple('pupil', ['x', 'y', 'r'])(pupil_coords[0], pupil_coords[1], pupil_coords[2])
         
     def calculate_margin_adequacy(self):
-        image_width, image_height = self.img.shape[:2]
+        image_height, image_width = self.img.shape[:2]
+        print("Image width: {}, Image height: {}".format(image_width, image_height))
         LM = (self.iris.x - self.iris.r)/self.iris.r
         RM = (image_width - (self.iris.x + self.iris.r))/self.iris.r
         DM = (image_height - (self.iris.y + self.iris.r))/self.iris.r
         UM = (self.iris.y - self.iris.r)/self.iris.r
         
+        print("LM: {}, RM: {}, UM: {}, DM: {}".format(LM, RM, UM, DM))
+        
         LEFT_MARGIN = max(0, min(1, LM/0.6))
         RIGHT_MARGIN = max(0, min(1, RM/0.6))
         UP_MARGIN = max(0, min(1, UM/0.2))
         DOWN_MARGIN = max(0, min(1, DM/0.2))
+        
+        print("LEFT_MARGIN: {}, RIGHT_MARGIN: {}, UP_MARGIN: {}, DOWN_MARGIN: {}".format(LEFT_MARGIN, RIGHT_MARGIN, UP_MARGIN, DOWN_MARGIN))
+        
+        cv2.imshow("Margins",self.draw_margins())
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
         
         return 100 * min(LEFT_MARGIN, RIGHT_MARGIN, UP_MARGIN, DOWN_MARGIN)
     
